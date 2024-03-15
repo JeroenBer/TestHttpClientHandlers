@@ -6,7 +6,7 @@ namespace HttpMessageHandlerTests.iOS
     [Register("AppDelegate")]
     public class AppDelegate : UIApplicationDelegate
     {
-        private UITextField txtResult;
+        private UITextView txtResult;
 
         public override UIWindow Window
         {
@@ -24,24 +24,34 @@ namespace HttpMessageHandlerTests.iOS
 
             var stackView = new UIStackView();
             stackView.Axis = UILayoutConstraintAxis.Vertical;
-            stackView.AutoresizingMask = UIViewAutoresizing.All;
+            stackView.Alignment = UIStackViewAlignment.Fill;
+            stackView.Distribution = UIStackViewDistribution.Fill;
+            stackView.Spacing = 10;
 
-            var btnNative = new UIButton();
-            btnNative.SetTitle("Native (NSUrl) message hanlder", UIControlState.Normal);
+            var btnNative = new UIButton(UIButtonType.RoundedRect);
+            btnNative.SetTitle("Native (NSUrl) message handler", UIControlState.Normal);
+            btnNative.BackgroundColor = UIColor.Blue;
+            btnNative.SetTitleColor(UIColor.White, UIControlState.Normal);            
             btnNative.TouchUpInside += BtnNative_TouchUpInside;
 
             var btnSockets = new UIButton();
-            btnNative.SetTitle("Sockets message hanlder", UIControlState.Normal);
-            btnNative.TouchUpInside += BtnSockets_TouchUpInside;
+            btnSockets.SetTitle("Sockets message handler", UIControlState.Normal);
+            btnSockets.BackgroundColor = UIColor.Blue;
+            btnSockets.SetTitleColor(UIColor.White, UIControlState.Normal);            
+            btnSockets.TouchUpInside += BtnSockets_TouchUpInside;
 
-            txtResult = new UITextField()
+            txtResult = new UITextView()
             {
+                BackgroundColor = UIColor.White,
+                TextColor = UIColor.Black,
+                Editable = false,
             };
             stackView.AddArrangedSubview(btnNative);
             stackView.AddArrangedSubview(btnSockets);
             stackView.AddArrangedSubview(txtResult);
-
-            vc.View!.AddSubview(stackView);
+            txtResult.SetContentHuggingPriority((float)UILayoutPriority.FittingSizeLevel, UILayoutConstraintAxis.Vertical);
+            
+            AddSubViewFilled(vc.View, stackView);            
 
             Window.RootViewController = vc;
 
@@ -51,9 +61,20 @@ namespace HttpMessageHandlerTests.iOS
             return true;
         }
 
+        public static void AddSubViewFilled(UIView parentView, UIView childView)
+        {
+            childView.TranslatesAutoresizingMaskIntoConstraints = false;
+
+            parentView.AddSubview(childView);
+            childView.TopAnchor.ConstraintEqualTo(parentView.SafeAreaLayoutGuide.TopAnchor).Active = true;
+            childView.BottomAnchor.ConstraintEqualTo(parentView.SafeAreaLayoutGuide.BottomAnchor).Active = true;
+            childView.LeftAnchor.ConstraintEqualTo(parentView.SafeAreaLayoutGuide.LeftAnchor).Active = true;
+            childView.RightAnchor.ConstraintEqualTo(parentView.SafeAreaLayoutGuide.RightAnchor).Active = true;
+        }
+        
         private void BtnNative_TouchUpInside(object sender, EventArgs e)
         {
-            ExecuteTest(new NativeHttpHandlerFactory());
+            ExecuteTest(new NativeHttpHandlerFactory(), runBadCertificates: false, runAuthenticationCredentials: false);
         }
         private void BtnSockets_TouchUpInside(object sender, EventArgs e)
         {

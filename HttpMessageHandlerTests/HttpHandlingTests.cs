@@ -82,13 +82,13 @@ namespace HttpMessageHandlerTests.cs
 
             if (runAuthenticationCredentials)
             {
-                testResult = await RunTest("NTLM", ExecuteHttpHandlerTestNtlm, new HttpCredential("testuser", "Wh9nPWEA3Xsg", "testntlm"));
+                testResult = await RunTest("Basic", ExecuteHttpHandlerTestBasic, new HttpCredential("testuser", "abc123", ""));
                 allResults.Add(testResult);
 
                 testResult = await RunTest("Digest", ExecuteHttpHandlerTestDigest, new HttpCredential("testuser", "abc123", ""));
                 allResults.Add(testResult);
 
-                testResult = await RunTest("Basic", ExecuteHttpHandlerTestBasic, new HttpCredential("testuser", "abc123", ""));
+                testResult = await RunTest("NTLM", ExecuteHttpHandlerTestNtlm, new HttpCredential("testuser", "Wh9nPWEA3Xsg", "testntlm"));
                 allResults.Add(testResult);
             }
 
@@ -229,7 +229,7 @@ namespace HttpMessageHandlerTests.cs
 
         private async Task ExecuteHttpHandlerTestPropFind(HttpClient httpClient)
         {
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Parse("PROPFIND"), "http://echo.free.beeceptor.com");
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Parse("PROPFIND"), "https://echo.free.beeceptor.com");
             var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
             httpResponseMessage.EnsureSuccessStatusCode();
 
