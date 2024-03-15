@@ -40,6 +40,12 @@ namespace HttpMessageHandlerTests.iOS
             btnSockets.SetTitleColor(UIColor.White, UIControlState.Normal);            
             btnSockets.TouchUpInside += BtnSockets_TouchUpInside;
 
+            var btnNtlmTest = new UIButton();
+            btnNtlmTest.SetTitle("NTLM Test", UIControlState.Normal);
+            btnNtlmTest.BackgroundColor = UIColor.Blue;
+            btnNtlmTest.SetTitleColor(UIColor.White, UIControlState.Normal);            
+            btnNtlmTest.TouchUpInside += BtnNtlmTestOnTouchUpInside;
+            
             txtResult = new UITextView()
             {
                 BackgroundColor = UIColor.White,
@@ -48,6 +54,7 @@ namespace HttpMessageHandlerTests.iOS
             };
             stackView.AddArrangedSubview(btnNative);
             stackView.AddArrangedSubview(btnSockets);
+            stackView.AddArrangedSubview(btnNtlmTest);
             stackView.AddArrangedSubview(txtResult);
             txtResult.SetContentHuggingPriority((float)UILayoutPriority.FittingSizeLevel, UILayoutConstraintAxis.Vertical);
             
@@ -98,5 +105,22 @@ namespace HttpMessageHandlerTests.iOS
                 txtResult.Text = $"{DateTime.Now:HH:mm:ss} - {ex}";
             }
         }
+        
+        private async void BtnNtlmTestOnTouchUpInside(object sender, EventArgs e)
+        {
+            try
+            {
+                txtResult.Text = "Running...";
+
+                var testResults = await NtlmTest.RunTest();;
+
+                txtResult.Text = $"{DateTime.Now:HH:mm:ss} Results {Environment.NewLine}{testResults}";
+            }
+            catch (Exception ex)
+            {
+                txtResult.Text = $"{DateTime.Now:HH:mm:ss} - {ex}";
+            }        
+        }
+        
     }
 }
