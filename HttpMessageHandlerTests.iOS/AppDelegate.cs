@@ -28,7 +28,7 @@ namespace HttpMessageHandlerTests.iOS
             stackView.Distribution = UIStackViewDistribution.Fill;
             stackView.Spacing = 10;
 
-            var btnNative = new UIButton(UIButtonType.RoundedRect);
+            var btnNative = new UIButton();
             btnNative.SetTitle("Native (NSUrl) message handler", UIControlState.Normal);
             btnNative.BackgroundColor = UIColor.Blue;
             btnNative.SetTitleColor(UIColor.White, UIControlState.Normal);            

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0-macos</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <ImplicitUsings>true</ImplicitUsings>
+        <SupportedOSPlatformVersion>10.15</SupportedOSPlatformVersion>
+    </PropertyGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\HttpMessageHandlerTests\HttpMessageHandlerTests.csproj" />
+    </ItemGroup>
+</Project>
