@@ -8,4 +8,8 @@
     <ItemGroup>
       <ProjectReference Include="..\HttpMessageHandlerTests\HttpMessageHandlerTests.csproj" />
     </ItemGroup>
+    <ItemGroup>
+        <!-- FIX NLTM https://github.com/dotnet/runtime/issues/97966 -->
+        <RuntimeHostConfigurationOption Include="System.Net.Security.UseManagedNtlm" Value="true" />
+    </ItemGroup>
 </Project>

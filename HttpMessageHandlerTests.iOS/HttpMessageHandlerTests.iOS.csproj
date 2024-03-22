@@ -9,6 +9,10 @@
     <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
+    <!-- See https://github.com/dotnet/runtime/issues/99892 -->
+    <RuntimeHostConfigurationOption Include="System.Net.Security.UseManagedNtlm" Value="true" />
+  </ItemGroup>  
+  <ItemGroup>
     <ProjectReference Include="..\HttpMessageHandlerTests\HttpMessageHandlerTests.csproj" />
   </ItemGroup>
 </Project>
